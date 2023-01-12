@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+App_Data/
+packages/
+*.user
+*.suo
+*.log
