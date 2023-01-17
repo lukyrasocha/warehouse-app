@@ -6,3 +6,5 @@ packages/
 *.user
 *.suo
 *.log
+
+client_secrets.json
