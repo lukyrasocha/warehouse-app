@@ -4,5 +4,5 @@ public class Product
 {
     public string? name { get; set; }
 
-    public string? articles {get; set; } 
+    public List<object>? articles {get; set; } 
 }
