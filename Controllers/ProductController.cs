@@ -95,6 +95,7 @@ public class ProductController : ControllerBase
         // Get all available products
         var rawProducts = (OkObjectResult) Get(); 
         List<Product>? products = rawProducts.Value as List<Product>;
+        Product deletedProduct;
 
         // Find the rowID where the product is
         if (products != null){
@@ -102,9 +103,14 @@ public class ProductController : ControllerBase
             foreach (Product product in products){
                 rowCounter++;
                 if (product.name == productName){
+                    deletedProduct = product;
                     break;
                 }
             }
+
+            // Update stock of inventory
+
+
             // Delete the row with the specific rowID
             var deleteRange = $"{SHEET_NAME}!A{rowCounter}:B{rowCounter}";
             var requestBody = new ClearValuesRequest();
@@ -124,9 +130,10 @@ public class ProductController : ControllerBase
         var x = (OkObjectResult) Get();
         var actual = x.Value as List<Product>; 
 
+        foreach (var article in actual![0].articles!){
+            Console.WriteLine(article);
+            Console.WriteLine(article.GetType().GetProperty("art_id")!.GetValue(article, null));
 
-        foreach (var value in actual){
-            Console.WriteLine(value.name);
         }
         return NoContent();
     }
