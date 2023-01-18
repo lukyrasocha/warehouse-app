@@ -87,4 +87,23 @@ public class ArticleController : ControllerBase
 
         return NoContent();
     }
+
+    [Route("testGet")]
+    [HttpGet]
+    public IActionResult testGet(){
+
+        var helper = new GoogleSheetsHelper();
+        var controller = new ProductController(helper);
+        
+        var x = (OkObjectResult) controller.Get();
+        var actual = x.Value as List<Product>; 
+
+        foreach (var article in actual![0].articles!){
+            Console.WriteLine(article);
+            Console.WriteLine(article.GetType().GetProperty("amount_of")!.GetValue(article, null));
+
+        }
+        return NoContent();
+
+    }
 }
