@@ -93,28 +93,41 @@ public class ProductController : ControllerBase
     public IActionResult DeleteOnName(string productName)
     {
         // Get all available products
-        var range = $"{SHEET_NAME}!A:B";
-        var request = _googleSheetValues.Get(SPREADSHEET_ID, range);
-        var response = request.Execute();
-        var values = response.Values;
-        List<Product> products = ProductMapper.MapFromRangeData(values);
+        var rawProducts = (OkObjectResult) Get(); 
+        List<Product>? products = rawProducts.Value as List<Product>;
 
         // Find the rowID where the product is
-        int rowCounter = 1;
-        foreach (Product product in products){
-            rowCounter++;
-            if (product.name == productName){
-                break;
+        if (products != null){
+            int rowCounter = 1;
+            foreach (Product product in products){
+                rowCounter++;
+                if (product.name == productName){
+                    break;
+                }
             }
+            // Delete the row with the specific rowID
+            var deleteRange = $"{SHEET_NAME}!A{rowCounter}:B{rowCounter}";
+            var requestBody = new ClearValuesRequest();
+
+            var deleteRequest = _googleSheetValues.Clear(requestBody, SPREADSHEET_ID, deleteRange);
+            deleteRequest.Execute();
         }
 
-        // Delete the row with the specific rowID
-        var deleteRange = $"{SHEET_NAME}!A{rowCounter}:B{rowCounter}";
-        var requestBody = new ClearValuesRequest();
 
-        var deleteRequest = _googleSheetValues.Clear(requestBody, SPREADSHEET_ID, deleteRange);
-        deleteRequest.Execute();
+        return NoContent();
+    }
 
+    [Route("testGet")]
+    [HttpGet]
+    public IActionResult testGet(){
+        
+        var x = (OkObjectResult) Get();
+        var actual = x.Value as List<Product>; 
+
+
+        foreach (var value in actual){
+            Console.WriteLine(value.name);
+        }
         return NoContent();
     }
 }
