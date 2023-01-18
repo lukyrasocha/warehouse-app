@@ -7,19 +7,28 @@ namespace warehouse_app.utils
         public static List<Product> MapFromRangeData(IList<IList<object>> values)
         {
             var products = new List<Product>();
+            Product product;
 
             for (int i = 1; i < values.Count; i++) //skip first row of the sheet
             {
 
+                if (values[i].Count > 1){ //Check whether the sheet has empty rows
                 string? articles = values[i][1].ToString();
                 var articlesIds_Amounts = parseArticles(articles);
 
-                Product product = new()
+                product = new()
                 {
                     name = values[i][0].ToString(),
                     articles = articlesIds_Amounts 
                 };
-
+                } 
+                else { //If we have an empty row
+                    product = new()
+                    {
+                        name = "",
+                        articles = new List<object>()
+                    };
+                }
                 products.Add(product);
             }
 
