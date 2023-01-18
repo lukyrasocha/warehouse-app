@@ -54,8 +54,8 @@ namespace warehouse_app.utils
                 foreach(string article in individualArticles){
                     string[] items = article.Split(',');
                     var id_amount = new {
-                        art_id = items[0],
-                        amount_of = items[1]
+                        art_id = items[0].Split(':')[1],
+                        amount_of = items[1].Split(':')[1]
                     };
                     articlesIds_Amounts.Add(id_amount);
 
