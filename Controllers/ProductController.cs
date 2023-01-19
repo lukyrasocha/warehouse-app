@@ -95,21 +95,19 @@ public class ProductController : ControllerBase
         // Get all available products
         var rawProducts = (OkObjectResult) Get(); 
         List<Product>? products = rawProducts.Value as List<Product>;
-        Product deletedProduct;
+        Product deletedProduct; 
 
-        // Find the rowID where the product is
+        // Find the rowID where the product is and update the stock of its articles
         if (products != null){
             int rowCounter = 1;
             foreach (Product product in products){
                 rowCounter++;
                 if (product.name == productName){
                     deletedProduct = product;
+                    ArticleHelper.updateArticles(deletedProduct);
                     break;
                 }
             }
-
-            // Update stock of inventory
-
 
             // Delete the row with the specific rowID
             var deleteRange = $"{SHEET_NAME}!A{rowCounter}:B{rowCounter}";
@@ -118,7 +116,6 @@ public class ProductController : ControllerBase
             var deleteRequest = _googleSheetValues.Clear(requestBody, SPREADSHEET_ID, deleteRange);
             deleteRequest.Execute();
         }
-
 
         return NoContent();
     }
