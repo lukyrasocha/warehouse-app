@@ -53,6 +53,7 @@ public class ProductController : ControllerBase
             Values = ProductMapper.MapToRangeData(product)
         };
 
+        ArticleHelper.updateArticles(product, "addition"); // Update inventory
         var appendRequest = _googleSheetValues.Append(valueRange, SPREADSHEET_ID, range);
         appendRequest.ValueInputOption = AppendRequest.ValueInputOptionEnum.USERENTERED;
         appendRequest.Execute();
@@ -104,7 +105,7 @@ public class ProductController : ControllerBase
                 rowCounter++;
                 if (product.name == productName){
                     deletedProduct = product;
-                    ArticleHelper.updateArticles(deletedProduct);
+                    ArticleHelper.updateArticles(deletedProduct, "deletion");
                     break;
                 }
             }
@@ -117,21 +118,6 @@ public class ProductController : ControllerBase
             deleteRequest.Execute();
         }
 
-        return NoContent();
-    }
-
-    [Route("testGet")]
-    [HttpGet]
-    public IActionResult testGet(){
-        
-        var x = (OkObjectResult) Get();
-        var actual = x.Value as List<Product>; 
-
-        foreach (var article in actual![0].articles!){
-            Console.WriteLine(article);
-            Console.WriteLine(article.GetType().GetProperty("art_id")!.GetValue(article, null));
-
-        }
         return NoContent();
     }
 }

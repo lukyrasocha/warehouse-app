@@ -38,7 +38,13 @@ namespace warehouse_app.utils
         public static IList<IList<object>> MapToRangeData(Product product)
         {
             if (product.name != null && product.articles != null){
-                var objectList = new List<object>() { product.name, product.articles };
+                string finalArticle ="";
+
+                foreach (ProductArticles article in product.articles){
+                    string intermediate = $"art_id:{article.art_id},amount_of:{article.amount_of};";
+                    finalArticle += intermediate;
+                }
+                var objectList = new List<object>() { product.name, finalArticle };
                 var rangeData = new List<IList<object>> { objectList };
                 return rangeData;
             } else {
@@ -53,11 +59,13 @@ namespace warehouse_app.utils
                 string[] individualArticles = articles.Split(';');
                 foreach(string article in individualArticles){
                     string[] items = article.Split(',');
-                    var id_amount = new ProductArticles {
-                        art_id = items[0].Split(':')[1],
-                        amount_of = items[1].Split(':')[1]
-                    };
-                    articlesIds_Amounts.Add(id_amount);
+                    if (items.Count() == 2){
+                        var id_amount = new ProductArticles {
+                            art_id = items[0].Split(':')[1],
+                            amount_of = items[1].Split(':')[1]
+                        };
+                        articlesIds_Amounts.Add(id_amount);
+                    }
 
                 }
             }
