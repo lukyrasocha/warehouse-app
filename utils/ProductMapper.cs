@@ -26,7 +26,7 @@ namespace warehouse_app.utils
                     product = new()
                     {
                         name = "",
-                        articles = new List<object>()
+                        articles = new List<ProductArticles>()
                     };
                 }
                 products.Add(product);
@@ -47,13 +47,13 @@ namespace warehouse_app.utils
             }
         }
 
-        private static List<object> parseArticles(string? articles){
-            var articlesIds_Amounts = new List<object>();
+        private static List<ProductArticles> parseArticles(string? articles){
+            var articlesIds_Amounts = new List<ProductArticles>();
             if (articles != null){
                 string[] individualArticles = articles.Split(';');
                 foreach(string article in individualArticles){
                     string[] items = article.Split(',');
-                    var id_amount = new {
+                    var id_amount = new ProductArticles {
                         art_id = items[0].Split(':')[1],
                         amount_of = items[1].Split(':')[1]
                     };
