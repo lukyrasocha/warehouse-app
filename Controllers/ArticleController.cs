@@ -88,6 +88,40 @@ public class ArticleController : ControllerBase
         return NoContent();
     }
 
+    [Route("updateStock/{art_id}")]
+    [HttpPut]
+    public IActionResult updateStock(string art_id, int value){
+        var rawArticles = (OkObjectResult) this.Get();
+        var cleanArticles = rawArticles.Value as List<Article>; 
+        Article articleToBeUpadted;
+
+        if (cleanArticles != null){
+            int rowCounter = 0;
+            foreach (Article article in cleanArticles){
+                rowCounter++;
+                if (article.art_id == art_id){
+                    int newStock = int.Parse(article.stock!) + value;
+                    article.stock = newStock.ToString();
+                    articleToBeUpadted = article;
+
+                    var range = $"{SHEET_NAME}!A{rowCounter}:C{rowCounter}";
+                    var valueRange = new ValueRange
+                    {
+                        Values = ArticleMapper.MapToRangeData(articleToBeUpadted)
+                    };
+
+                    var updateRequest = _googleSheetValues.Update(valueRange, SPREADSHEET_ID, range);
+                    updateRequest.ValueInputOption = UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                    updateRequest.Execute();
+
+                    return NoContent();
+                } 
+            }
+        }
+
+        return NotFound();
+    }
+
     [Route("testGet")]
     [HttpGet]
     public IActionResult testGet(){
