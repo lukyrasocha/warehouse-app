@@ -11,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(typeof(GoogleSheetsHelper));
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var url = $"http://0.0.0.0:{port}";
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,4 +29,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run(url);
