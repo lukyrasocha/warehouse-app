@@ -30,3 +30,7 @@ dotnet run
 
 ## To deploy the app to Google Cloud
 
+Use the `-p` flag to specify `hostPort:ContainerPort` mapping
+```
+docker build .
+```
