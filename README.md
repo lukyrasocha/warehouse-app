@@ -40,6 +40,6 @@ docker build --tag dotnet-docker .
 To publish a port for our container, we’ll use the `--publish` flag (`-p` for short) on the docker run command. The format of the `--publish` command is `[host port]:[container port]`. So, if we wanted to expose port 80 inside the container to port 5000 outside the container, we would pass 5000:80 to the `--publish` flag. Run the container using the following command:
 
 ```
- docker run --publish 5000:80 dotnet-docker
+ docker run --publish 80:8080 dotnet-docker
 ```
-
+Meaning that inside the container it listens on port 8080 but accessing it from outside it is on port 80
