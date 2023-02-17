@@ -1,6 +1,8 @@
 using Google.Apis.Sheets.v4;
 using Google.Apis.Services;
 using Google.Apis.Auth.OAuth2;
+using Google.Cloud.SecretManager.V1;
+
 
 namespace warehouse_app.utils {
 
@@ -17,7 +19,7 @@ namespace warehouse_app.utils {
 
         private void InitializeService()
         {
-            var credential = GetCredentialsFromFile();
+            var credential = GetCredentials(); //GetCredentialsFromFile();
             Service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
@@ -34,6 +36,25 @@ namespace warehouse_app.utils {
                 credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
             }
 
+            return credential;
+        }
+
+        private GoogleCredential GetCredentials()
+        {
+
+            GoogleCredential credential;
+
+            // Create the client
+            var client = SecretManagerServiceClient.Create();
+
+            // Retrieve the secret value by name
+            var response = client.AccessSecretVersion(new AccessSecretVersionRequest
+            {
+                SecretVersionName = new SecretVersionName("warehouse-app-375013", "warehouse_client_secrets", "latest")
+            });
+
+            // Get the secret value
+            credential = GoogleCredential.FromJson(response.Payload.Data.ToStringUtf8());
             return credential;
         }
     }
