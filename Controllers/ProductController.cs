@@ -88,6 +88,13 @@ public class ProductController : ControllerBase
 
         return NoContent();
     }
+    
+    [Route("test")]
+    [HttpGet]
+    public IActionResult testget()
+    {
+        return Ok("TEST REQUEST");
+    }
 
     [Route("delete/{productName}")]
     [HttpDelete]
