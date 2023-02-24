@@ -43,7 +43,7 @@ namespace warehouse_app.utils {
         {
 
             GoogleCredential credential;
-
+            // TEST
             // Create the client
             var client = SecretManagerServiceClient.Create();
 
