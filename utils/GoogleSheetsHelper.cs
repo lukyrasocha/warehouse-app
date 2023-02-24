@@ -50,7 +50,7 @@ namespace warehouse_app.utils {
             // Retrieve the secret value by name
             var response = client.AccessSecretVersion(new AccessSecretVersionRequest
             {
-                SecretVersionName = new SecretVersionName("warehouse-app-375013", "warehouse_client_secrets", "latest")
+                SecretVersionName = new SecretVersionName("computas-dk-playground", "warehouse_client_secrets", "latest")
             });
 
             // Get the secret value
