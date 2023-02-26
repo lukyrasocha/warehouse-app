@@ -12,6 +12,7 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("https://warehouse-frontend-lukyrasocha.vercel.app",
                                              "http://warehouse-frontend-lukyrasocha.vercel.app",
+                                             "https://warehouse-frontend-ouh3cj4nwa-ew.a.run.app/",
                                              "http://localhost:3000",
                                              "http://localhost")
                                             .AllowAnyHeader()
