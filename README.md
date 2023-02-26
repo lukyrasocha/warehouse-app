@@ -43,3 +43,9 @@ To publish a port for our container, we’ll use the `--publish` flag (`-p` for 
  docker run --publish 80:8080 dotnet-docker
 ```
 Meaning that inside the container it listens on port 8080 but accessing it from outside it is on port 80
+
+### Deploy
+
+Next you can either push the image to an Artifact Registry on GCP from where you can take the image and deploy it using `Cloud Run`
+
+Alternatively, for full CI&CD, you can connect this repo with `Cloud Build` and point to the location of the Dockerfile, then on each new change and push to the main branch, the image is automatically re-built and re-deployed.
