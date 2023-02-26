@@ -2,7 +2,7 @@
 
 This repository is a solution for a task assignment defined in `Full Stack Assignment Description.pdf`
 
-The app is currently running [here](https://app-v1-bhlby76vvq-uc.a.run.app/swagger/index.html).
+The app is currently running [here](https://warehouse-app-ouh3cj4nwa-ew.a.run.app/swagger/index.html).
 
 ## Technologies:
 - ASP.NET Web API framework v.7.0
